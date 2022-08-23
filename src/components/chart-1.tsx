@@ -1,14 +1,21 @@
-import React, {useEffect, useRef} from 'react';
-import * as echarts from 'echarts';
-import {createEchartsOptions} from '../shared/create-echarts-options';
+import React, {useEffect, useRef} from 'react'
+import * as echarts from 'echarts'
+import {createEchartsOptions} from '../shared/create-echarts-options'
 
 export const Chart1 = () => {
-  const divRef = useRef(null);
+  const divRef = useRef(null)
+  const myChart = useRef(null)
+  const data = [10, 20, 36, 41, 15, 26, 37, 18, 29]
   useEffect(() => {
-    var myChart = echarts.init(divRef.current);
-    myChart.setOption(createEchartsOptions({
+    setInterval(() => {
+      const newData = [Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100]
+      x(newData)
+    }, 1000)
+  }, [])
+  const x = (data) => {
+    myChart.current.setOption(createEchartsOptions({
       xAxis: {
-        data: ['兰州新区', '兰州新区', '兰州新区', '兰州新区', '兰州新区', '兰州新区', '兰州新区', '兰州新区', '兰州新区'],
+        data: ['城关区', '七里河区', '西固区', '安宁区', '红谷区', '永登区', '皋兰区', '榆中区', '兰州新区'],
         axisTick: {show: false},
         axisLine: {
           lineStyle: {color: '#083B70'}
@@ -16,11 +23,11 @@ export const Chart1 = () => {
         axisLabel: {
           formatter(val) {
             if (val.length > 2) {
-              const array = val.split('');
-              array.splice(2, 0, '\n');
-              return array.join('');
+              const array = val.split('')
+              array.splice(2, 0, '\n')
+              return array.join('')
             } else {
-              return val;
+              return val
             }
           }
         },
@@ -35,10 +42,14 @@ export const Chart1 = () => {
       },
       series: [{
         type: 'bar',
-        data: [10, 20, 36, 41, 15, 26, 37, 18, 29]
+        data: data
       }]
-    }));
-  }, []);
+    }))
+  }
+  useEffect(() => {
+    myChart.current = echarts.init(divRef.current)
+    x(data)
+  }, [])
 
   return (
     <div className="bordered 管辖统计">
@@ -47,5 +58,5 @@ export const Chart1 = () => {
 
       </div>
     </div>
-  );
-};
+  )
+}
