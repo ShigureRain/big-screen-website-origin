@@ -1,10 +1,11 @@
-import React, {useEffect, useRef} from 'react';
-import './home.scss';
-import headerBg from '../images/header.png';
-import {Chart1} from '../components/chart-1';
-import {Chart2} from '../components/chart-2';
+import React from 'react'
+import './home.scss'
+import headerBg from '../images/header.png'
+import {Chart1} from '../components/chart-1'
+import {Chart2} from '../components/chart-2'
 
 export const Home = () => {
+  const year = new Date().getFullYear()
   return (
     <div className="home">
       <header style={{backgroundImage: `url(${headerBg})`}}/>
@@ -18,6 +19,9 @@ export const Home = () => {
         <section className="bordered section4"></section>
         <section className="bordered section5"></section>
       </main>
+      <footer>
+        &copy; Shigure {year}
+      </footer>
     </div>
   )
 }
