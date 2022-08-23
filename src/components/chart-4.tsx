@@ -1,13 +1,32 @@
-import React, {useEffect, useRef} from 'react';
-import * as echarts from 'echarts';
-import {createEchartsOptions} from '../shared/create-echarts-options';
-import {px} from '../shared/px';
+import React, {useEffect, useRef} from 'react'
+import * as echarts from 'echarts'
+import {createEchartsOptions} from '../shared/create-echarts-options'
+import {px} from '../shared/px'
 
 export const Chart4 = () => {
-  const divRef = useRef(null);
+  const divRef = useRef(null)
+  const myChart = useRef(null)
+  const data = [
+    0.15, 0.13, 0.11,
+    0.13, 0.14, 0.15,
+    0.16, 0.18, 0.21,
+    0.19, 0.17, 0.16,
+    0.15
+  ]
   useEffect(() => {
-    var myChart = echarts.init(divRef.current);
-    myChart.setOption(createEchartsOptions({
+    setInterval(() => {
+      const newData = [
+        Math.random(), Math.random(), Math.random(),
+        Math.random(), Math.random(), Math.random(),
+        Math.random(), Math.random(), Math.random(),
+        Math.random(), Math.random(), Math.random(),
+        Math.random(),
+      ]
+      x(newData)
+    }, 1000)
+  }, [])
+  const x = (data) => {
+    myChart.current.setOption(createEchartsOptions({
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -21,19 +40,13 @@ export const Chart4 = () => {
         splitLine: {lineStyle: {color: '#073E78'}},
         axisLabel: {
           formatter(val) {
-            return val * 100 + '%';
+            return val * 100 + '%'
           }
         }
       },
       series: [{
         type: 'line',
-        data: [
-          0.15, 0.13, 0.11,
-          0.13, 0.14, 0.15,
-          0.16, 0.18, 0.21,
-          0.19, 0.17, 0.16,
-          0.15
-        ],
+        data: data,
         symbol: 'circle',
         symbolSize: px(12),
         lineStyle: {width: px(2)},
@@ -47,13 +60,17 @@ export const Chart4 = () => {
           }]),
         }
       }]
-    }));
-  }, []);
+    }))
+  }
+  useEffect(() => {
+    myChart.current = echarts.init(divRef.current)
+    x(data)
+  }, [])
 
   return (
     <div className="bordered 案发时段">
       <h2>案发时段分析</h2>
       <div ref={divRef} className="chart"/>
     </div>
-  );
-};
+  )
+}
